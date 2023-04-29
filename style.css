@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 2rem;
+  color: rgba(41, 141, 80, 0.8);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.textarea {
+  display: block;
+  width: 40rem;
+  max-width: 100%;
+  height: 10rem;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  font-size: 1.25rem;
+  color: rgb(68, 68, 68)
+}
+
+.keyboard {
+  width: 45rem;
+  max-width: 100%;
+  padding: 0.5rem;
+  background: rgb(136, 136, 136);
+  border: 0.25rem solid rgb(34, 34, 34);
+  border-radius: 0.5rem;
+}
