@@ -101,7 +101,9 @@ document.addEventListener('keyup', function(event) {
   const code = event.code;
   const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
   if (virtualKey.dataset.code !== "CapsLock") {
-    virtualKey.classList.remove('active');
+    setTimeout(() => {
+      virtualKey.classList.remove('active');
+    }, 300);
   }
 });
 
@@ -117,7 +119,9 @@ document.addEventListener('mouseup', function(event) {
   const code = event.target.dataset.code;
   const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
   if (virtualKey.dataset.code !== "CapsLock") {
-    virtualKey.classList.remove('active');
+    setTimeout(() => {
+      virtualKey.classList.remove('active');
+    }, 300);
   }
 });
 
