@@ -1,5 +1,7 @@
-const body = document.querySelector("body");
 import { keys, specialKeys } from "./keys.js";
+
+const body = document.querySelector("body");
+let capsState = false;
 
 const initDOM = () => {
   const container = document.createElement("div");
@@ -90,12 +92,56 @@ initDOM();
 //   this.current.event.ctrlKey && this.current.event.altKey && this.toggleLang()
 // }
 
+function capsUpdate() {
+  capsState = !capsState;
+  const keyboardKeys = document.querySelectorAll(".key");
+  keyboardKeys.forEach(key => {
+    const keyCode = key.dataset.code;
+    if (!specialKeys.includes(keyCode)) {
+      if (capsState) {
+        key.textContent = key.textContent.toUpperCase();
+      } else {
+        key.textContent = key.textContent.toLowerCase();
+      }
+    }
+  });
+}
+
+
 function updateTextarea(key) {
   const textarea = document.getElementById('textarea');
-  textarea.value += key.textContent;
+  const keyCode = key.dataset.code;
+  if (!specialKeys.includes(keyCode)) {
+    textarea.value += key.textContent;
+  } else {
+    switch (keyCode) {
+      case "Backspace":
+        textarea.value = textarea.value.slice(0, -1);
+        break;
+      case "Delete":
+        textarea.value = "";
+        break;
+      case "Tab":
+        textarea.value += "\t";
+        break;
+      case "Enter":
+        textarea.value += "\n";
+        break;
+      case "CapsLock":
+        capsUpdate();
+        break;
+      case "ShiftLeft":
+        break;
+      case "ShiftRight":
+        break;
+      default:
+        break;
+    }
+  }
 }
 
 document.addEventListener('keydown', function(event) {
+  event.preventDefault();
   const code = event.code;
   const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
   virtualKey.classList.add('active');
@@ -109,6 +155,7 @@ document.addEventListener('keyup', function(event) {
 });
 
 document.addEventListener('mousedown', function(event) {
+  event.preventDefault();
   const code = event.target.dataset.code;
   const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
   virtualKey.classList.add('active');
