@@ -26,6 +26,8 @@ const initDOM = () => {
     for (let j = 0; j < keys[i].length; j += 1) {
       const key = document.createElement("div");
       key.classList.add("key", keys[i][j].event);
+      key.setAttribute("data-code", keys[i][j].event);
+      key.setAttribute("data-key", keys[i][j].key);
       key.innerText = keys[i][j].key;
       row.appendChild(key);
     }
@@ -37,3 +39,16 @@ const initDOM = () => {
 }
 
 initDOM();
+
+document.addEventListener('keydown', function(event) {
+  const code = event.code;
+  const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
+  console.log(code, virtualKey);
+  virtualKey.classList.add('active');
+});
+
+document.addEventListener('keyup', function(event) {
+  const code = event.code;
+  const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
+  virtualKey.classList.remove('active');
+});
