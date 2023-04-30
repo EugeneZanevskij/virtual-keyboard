@@ -1,4 +1,6 @@
-export let keys = [
+export const specialKeys = ["Backspace", "Tab", "Enter", "CapsLock", "ShiftLeft", "ShiftRight", "AltLeft", "AltRight", "ControlLeft", "ControlRight", "MetaLeft", "Delete"];
+
+export const keys = [
   [
     {
       event: "Backquote",
@@ -77,43 +79,43 @@ export let keys = [
     },
     {
       event: "KeyQ",
-      key: "Q",
+      key: "q",
     },
     {
       event: "KeyW",
-      key: "W",
+      key: "w",
     },
     {
       event: "KeyE",
-      key: "E",
+      key: "e",
     },
     {
       event: "KeyR",
-      key: "R",
+      key: "r",
     },
     {
       event: "KeyT",
-      key: "T",
+      key: "t",
     },
     {
       event: "KeyY",
-      key: "Y",
+      key: "y",
     },
     {
       event: "KeyU",
-      key: "U",
+      key: "u",
     },
     {
       event: "KeyI",
-      key: "I",
+      key: "i",
     },
     {
       event: "KeyO",
-      key: "O", 
+      key: "o", 
     },
     {
       event: "KeyP",
-      key: "P",
+      key: "p",
     },
     {
       event: "BracketLeft",
@@ -139,39 +141,39 @@ export let keys = [
     },
     {
       event: "KeyA",
-      key: "A",
+      key: "a",
     },
     {
       event: "KeyS",
-      key: "S",
+      key: "s",
     },
     {
       event: "KeyD",
-      key: "D",
+      key: "d",
     },
     {
       event: "KeyF",
-      key: "F",
+      key: "f",
     },
     {
       event: "KeyG",
-      key: "G",
+      key: "g",
     },
     {
       event: "KeyH",
-      key: "H",
+      key: "h",
     },
     {
       event: "KeyJ",
-      key: "J",
+      key: "j",
     },
     {
       event: "KeyK",
-      key: "K",
+      key: "k",
     },
     {
       event: "KeyL",
-      key: "L",
+      key: "l",
     },
     {
       event: "Semicolon",
@@ -195,31 +197,31 @@ export let keys = [
     },
     {
       event: "KeyZ",
-      key: "Z",
+      key: "z",
     },
     {
       event: "KeyX",
-      key: "X",
+      key: "x",
     },
     {
       event: "KeyC",
-      key: "C",
+      key: "c",
     },
     {
       event: "KeyV",
-      key: "V",
+      key: "v",
     },
     {
       event: "KeyB",
-      key: "B",
+      key: "b",
     },
     {
       event: "KeyN",
-      key: "N",
+      key: "n",
     },
     {
       event: "KeyM",
-      key: "M",
+      key: "m",
     },
     {
       event: "Comma",
@@ -259,7 +261,7 @@ export let keys = [
     },
     {
       event: "Space",
-      key: "Space",
+      key: " ",
     },
     {
       event: "AltRight",
