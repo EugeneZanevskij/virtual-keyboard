@@ -37,3 +37,30 @@
   border: 0.25rem solid rgb(34, 34, 34);
   border-radius: 0.5rem;
 }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  gap: 0.25rem;
+}
+
+.key {
+  background-color: rgb(255, 255, 255);
+  border-radius: 0.5rem;
+  box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.75rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.Space {
+  flex-grow: 5;
+}
+
+.ShiftLeft,
+.ShiftRight {
+  flex-grow: 2;
+}
