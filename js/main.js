@@ -3,7 +3,6 @@ import { keys, specialKeys } from "./keys.js";
 const body = document.querySelector("body");
 let capsState = false;
 let shiftState = false;
-
 const initDOM = () => {
   const container = document.createElement("div");
   container.classList.add("container");
@@ -170,3 +169,31 @@ function handleShift() {
 }
 
 handleShift();
+
+function switchLanguage() {
+  const shortcut = ['Control', 'Alt'];
+  let shortcutCurrent = [];
+  let language = localStorage.getItem('language');
+
+  document.addEventListener('keydown', (event) => {
+    if (shortcut.includes(event.key)) {
+      shortcutCurrent.push(event.key);
+      if (shortcutCurrent.length === shortcut.length) {
+        if (language === 'en') {
+          language = 'ru';
+        } else {
+          language = 'en';
+        }
+        localStorage.setItem('language', language);
+      }
+    }
+  });
+
+  document.addEventListener('keyup', (event) => {
+    if (shortcut.includes(event.key)) {
+      shortcutCurrent = shortcutCurrent.filter(key => key !== event.key);
+    }
+  });
+}
+
+switchLanguage();
