@@ -1,61 +1,25 @@
-import { keys, specialKeys } from "./keys.js";
+import { keys, specialKeys } from './keys.js';
 
-const body = document.querySelector("body");
+const body = document.querySelector('body');
 let capsState = false;
 let shiftState = false;
 let language = localStorage.getItem('language');
 
-const initDOM = () => {
-  const container = document.createElement("div");
-  container.classList.add("container");
-  const title = document.createElement("h1");
-  title.innerText = "RSS Virtual Keyboard by Eugene";
-  title.classList.add("title");
-  container.appendChild(title);
-  const textArea = document.createElement("textarea");
-  textArea.classList.add("textarea");
-  textArea.setAttribute("id", "textarea");
-  textArea.setAttribute("rows", "5");
-  textArea.setAttribute("cols", "40");
-  container.appendChild(textArea);
-  const keyboard = document.createElement("div");
-  keyboard.classList.add("keyboard");
-  keyboard.setAttribute("id", "keyboard");
-  const keyboardKeys = createKeyboardKeys(language);
-  keyboard.appendChild(keyboardKeys);
-  container.appendChild(keyboard);
-  const osInfo = document.createElement("p");
-  osInfo.innerText = "Клавиатура для OC Windows";
-  osInfo.classList.add("os-info");
-  container.appendChild(osInfo);
-  const languageInfo = document.createElement("p");
-  languageInfo.innerText = "Для переключения языка использовать комбинацию ctrl + alt";
-  languageInfo.classList.add("language-info");
-  container.appendChild(languageInfo);
-  body.appendChild(container);
-}
-
-function updateKeyboard() {
-  const keyboard = document.querySelector("#keyboard");
-  const keyboardKeys = createKeyboardKeys(language);
-  keyboard.innerHTML = "";
-  keyboard.appendChild(keyboardKeys);
-  updateKeysOnCaps();
-}
-
-function createKeyboardKeys(language) {
+function createKeyboardKeys() {
   const keyboardKeys = document.createDocumentFragment();
   const keysLanguage = keys[language];
 
   for (let i = 0; i < keysLanguage.length; i += 1) {
-    const row = document.createElement("div");
-    row.classList.add("row");
+    const row = document.createElement('div');
+    row.classList.add('row');
     for (let j = 0; j < keysLanguage[i].length; j += 1) {
-      const key = document.createElement("div");
-      key.classList.add("key", keysLanguage[i][j].event);
-      key.setAttribute("data-code", keysLanguage[i][j].event);
-      key.setAttribute("data-key", keysLanguage[i][j].key); 
-      keysLanguage[i][j].shift && key.setAttribute("data-shift", keysLanguage[i][j].shift); 
+      const key = document.createElement('div');
+      key.classList.add('key', keysLanguage[i][j].event);
+      key.setAttribute('data-code', keysLanguage[i][j].event);
+      key.setAttribute('data-key', keysLanguage[i][j].key);
+      if (keysLanguage[i][j].shift) {
+        key.setAttribute('data-shift', keysLanguage[i][j].shift);
+      }
       key.innerText = keysLanguage[i][j].key;
       row.appendChild(key);
     }
@@ -64,28 +28,57 @@ function createKeyboardKeys(language) {
   return keyboardKeys;
 }
 
+const initDOM = () => {
+  const container = document.createElement('div');
+  container.classList.add('container');
+  const title = document.createElement('h1');
+  title.innerText = 'RSS Virtual Keyboard by Eugene';
+  title.classList.add('title');
+  container.appendChild(title);
+  const textArea = document.createElement('textarea');
+  textArea.classList.add('textarea');
+  textArea.setAttribute('id', 'textarea');
+  textArea.setAttribute('rows', '5');
+  textArea.setAttribute('cols', '40');
+  container.appendChild(textArea);
+  const keyboard = document.createElement('div');
+  keyboard.classList.add('keyboard');
+  keyboard.setAttribute('id', 'keyboard');
+  const keyboardKeys = createKeyboardKeys();
+  keyboard.appendChild(keyboardKeys);
+  container.appendChild(keyboard);
+  const osInfo = document.createElement('p');
+  osInfo.innerText = 'Клавиатура для OC Windows';
+  osInfo.classList.add('os-info');
+  container.appendChild(osInfo);
+  const languageInfo = document.createElement('p');
+  languageInfo.innerText = 'Для переключения языка использовать комбинацию ctrl + alt';
+  languageInfo.classList.add('language-info');
+  container.appendChild(languageInfo);
+  body.appendChild(container);
+};
 
 initDOM();
 
 function updateKeysOnCaps() {
   const keyboardKeys = document.querySelectorAll('.key');
   const capsKey = document.querySelector('.key[data-key="CapsLock"]');
-  keyboardKeys.forEach(key => {
+  keyboardKeys.forEach((key) => {
     const keyCode = key.dataset.code;
     if (!specialKeys.includes(keyCode)) {
+      let keyData = key.dataset.key;
       if (capsState) {
         capsKey.classList.add('active');
-        key.dataset.key = key.dataset.key.toUpperCase();
-        key.textContent = key.dataset.key;
+        keyData = keyData.toUpperCase();
       } else {
-        key.dataset.key = key.dataset.key.toLowerCase();
-        key.textContent = key.dataset.key;
+        keyData = keyData.toLowerCase();
         capsKey.classList.remove('active');
       }
+      key.dataset.key = keyData;
+      key.textContent = keyData;
     }
   });
 }
-
 
 function handleKeys(virtualKey) {
   const textarea = document.getElementById('textarea');
@@ -94,19 +87,19 @@ function handleKeys(virtualKey) {
     textarea.value += virtualKey.textContent;
   } else {
     switch (keyCode) {
-      case "Backspace":
+      case 'Backspace':
         textarea.value = textarea.value.slice(0, -1);
         break;
-      case "Delete":
-        textarea.value = "";
+      case 'Delete':
+        textarea.value = '';
         break;
-      case "Tab":
-        textarea.value += "\t";
+      case 'Tab':
+        textarea.value += '\t';
         break;
-      case "Enter":
-        textarea.value += "\n";
+      case 'Enter':
+        textarea.value += '\n';
         break;
-      case "CapsLock":
+      case 'CapsLock':
         capsState = !capsState;
         updateKeysOnCaps();
         break;
@@ -116,36 +109,36 @@ function handleKeys(virtualKey) {
   }
 }
 
-document.addEventListener('keydown', event => {
+document.addEventListener('keydown', (event) => {
   event.preventDefault();
-  const code = event.code;
+  const { code } = event;
   const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
   virtualKey.classList.add('active');
   handleKeys(virtualKey);
 });
 
-document.addEventListener('keyup', event => {
-  const code = event.code;
+document.addEventListener('keyup', (event) => {
+  const { code } = event;
   const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
-  if (virtualKey.dataset.code !== "CapsLock") {
+  if (virtualKey.dataset.code !== 'CapsLock') {
     setTimeout(() => {
       virtualKey.classList.remove('active');
     }, 300);
   }
 });
 
-document.addEventListener('mousedown', event => {
+document.addEventListener('mousedown', (event) => {
   event.preventDefault();
-  const code = event.target.dataset.code;
+  const { code } = event.target.dataset;
   const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
   virtualKey.classList.add('active');
   handleKeys(virtualKey);
 });
 
-document.addEventListener('mouseup', event => {
-  const code = event.target.dataset.code;
+document.addEventListener('mouseup', (event) => {
+  const { code } = event.target.dataset;
   const virtualKey = document.querySelector(`.key[data-code="${code}"]`);
-  if (virtualKey.dataset.code !== "CapsLock") {
+  if (virtualKey.dataset.code !== 'CapsLock') {
     setTimeout(() => {
       virtualKey.classList.remove('active');
     }, 300);
@@ -154,7 +147,7 @@ document.addEventListener('mouseup', event => {
 
 function updateKeysOnShift() {
   const keyboardKeys = document.querySelectorAll('.key');
-  keyboardKeys.forEach(key => {
+  keyboardKeys.forEach((key) => {
     const keyCode = key.dataset.code;
     if (!specialKeys.includes(keyCode)) {
       if (shiftState) {
@@ -171,7 +164,7 @@ function updateKeysOnShift() {
 function handleShift() {
   const shiftKeys = document.querySelectorAll('.key[data-key="Shift"]');
 
-  shiftKeys.forEach(shiftKey => {
+  shiftKeys.forEach((shiftKey) => {
     shiftKey.addEventListener('mousedown', () => {
       shiftState = true;
       updateKeysOnShift();
@@ -182,7 +175,7 @@ function handleShift() {
         updateKeysOnShift();
       }
     });
-    
+
     shiftKey.addEventListener('mouseup', () => {
       shiftState = false;
       updateKeysOnShift();
@@ -193,10 +186,17 @@ function handleShift() {
         updateKeysOnShift();
       }
     });
-  })
+  });
 }
 
 handleShift();
+function updateKeyboard() {
+  const keyboard = document.querySelector('#keyboard');
+  const keyboardKeys = createKeyboardKeys();
+  keyboard.innerHTML = '';
+  keyboard.appendChild(keyboardKeys);
+  updateKeysOnCaps();
+}
 
 function switchLanguage() {
   const shortcut = ['Control', 'Alt'];
@@ -219,11 +219,9 @@ function switchLanguage() {
 
   document.addEventListener('keyup', (event) => {
     if (shortcut.includes(event.key)) {
-      shortcutCurrent = shortcutCurrent.filter(key => key !== event.key);
+      shortcutCurrent = shortcutCurrent.filter((key) => key !== event.key);
     }
   });
 }
 
 switchLanguage();
-
-// TODO add EsLint
