@@ -3,6 +3,8 @@ import { keys, specialKeys } from "./keys.js";
 const body = document.querySelector("body");
 let capsState = false;
 let shiftState = false;
+let language = localStorage.getItem('language');
+
 const initDOM = () => {
   const container = document.createElement("div");
   container.classList.add("container");
@@ -19,25 +21,33 @@ const initDOM = () => {
   const keyboard = document.createElement("div");
   keyboard.classList.add("keyboard");
   keyboard.setAttribute("id", "keyboard");
-  const keyboardKeys = document.createDocumentFragment();
-  for (let i = 0; i < keys.length; i += 1) {
-    const row = document.createElement("div");
-    row.classList.add("row");
-    for (let j = 0; j < keys[i].length; j += 1) {
-      const key = document.createElement("div");
-      key.classList.add("key", keys[i][j].event);
-      key.setAttribute("data-code", keys[i][j].event);
-      key.setAttribute("data-key", keys[i][j].key); 
-      keys[i][j].shift && key.setAttribute("data-shift", keys[i][j].shift); 
-      key.innerText = keys[i][j].key;
-      row.appendChild(key);
-    }
-    keyboardKeys.appendChild(row);
-  }
+  const keyboardKeys = createKeyboardKeys(language, keys);
   keyboard.appendChild(keyboardKeys);
   container.appendChild(keyboard);
   body.appendChild(container);
 }
+
+function createKeyboardKeys(language, keys) {
+  const keyboardKeys = document.createDocumentFragment();
+  const keysLanguage = keys[language];
+
+  for (let i = 0; i < keysLanguage.length; i += 1) {
+    const row = document.createElement("div");
+    row.classList.add("row");
+    for (let j = 0; j < keysLanguage[i].length; j += 1) {
+      const key = document.createElement("div");
+      key.classList.add("key", keysLanguage[i][j].event);
+      key.setAttribute("data-code", keysLanguage[i][j].event);
+      key.setAttribute("data-key", keysLanguage[i][j].key); 
+      keysLanguage[i][j].shift && key.setAttribute("data-shift", keysLanguage[i][j].shift); 
+      key.innerText = keysLanguage[i][j].key;
+      row.appendChild(key);
+    }
+    keyboardKeys.appendChild(row);
+  }
+  return keyboardKeys;
+}
+
 
 initDOM();
 
@@ -173,7 +183,6 @@ handleShift();
 function switchLanguage() {
   const shortcut = ['Control', 'Alt'];
   let shortcutCurrent = [];
-  let language = localStorage.getItem('language');
 
   document.addEventListener('keydown', (event) => {
     if (shortcut.includes(event.key)) {

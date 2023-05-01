@@ -1,6 +1,7 @@
 export const specialKeys = ["Backspace", "Tab", "Enter", "CapsLock", "ShiftLeft", "ShiftRight", "AltLeft", "AltRight", "ControlLeft", "ControlRight", "MetaLeft", "Delete"];
 
-export const keys = [
+export const keys = {
+  en: [
   [
     {
       event: "Backquote",
@@ -285,3 +286,4 @@ export const keys = [
     }
   ]
 ]
+};
