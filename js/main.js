@@ -24,7 +24,14 @@ const initDOM = () => {
   const keyboardKeys = createKeyboardKeys(language);
   keyboard.appendChild(keyboardKeys);
   container.appendChild(keyboard);
-  // TODO add some text after keyboard
+  const osInfo = document.createElement("p");
+  osInfo.innerText = "Клавиатура для OC Windows";
+  osInfo.classList.add("os-info");
+  container.appendChild(osInfo);
+  const languageInfo = document.createElement("p");
+  languageInfo.innerText = "Для переключения языка использовать комбинацию ctrl + alt";
+  languageInfo.classList.add("language-info");
+  container.appendChild(languageInfo);
   body.appendChild(container);
 }
 
