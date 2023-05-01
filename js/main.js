@@ -3,7 +3,11 @@ import { keys, specialKeys } from './keys.js';
 const body = document.querySelector('body');
 let capsState = false;
 let shiftState = false;
-let language = localStorage.getItem('language');
+let language;
+if (!localStorage.getItem('language')) {
+  localStorage.setItem('language', 'en');
+}
+language = localStorage.getItem('language');
 
 function createKeyboardKeys() {
   const keyboardKeys = document.createDocumentFragment();
