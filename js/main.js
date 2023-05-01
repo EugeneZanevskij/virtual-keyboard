@@ -21,13 +21,22 @@ const initDOM = () => {
   const keyboard = document.createElement("div");
   keyboard.classList.add("keyboard");
   keyboard.setAttribute("id", "keyboard");
-  const keyboardKeys = createKeyboardKeys(language, keys);
+  const keyboardKeys = createKeyboardKeys(language);
   keyboard.appendChild(keyboardKeys);
   container.appendChild(keyboard);
+  // TODO add some text after keyboard
   body.appendChild(container);
 }
 
-function createKeyboardKeys(language, keys) {
+function updateKeyboard() {
+  const keyboard = document.querySelector("#keyboard");
+  const keyboardKeys = createKeyboardKeys(language);
+  keyboard.innerHTML = "";
+  keyboard.appendChild(keyboardKeys);
+  updateKeysOnCaps();
+}
+
+function createKeyboardKeys(language) {
   const keyboardKeys = document.createDocumentFragment();
   const keysLanguage = keys[language];
 
@@ -51,19 +60,20 @@ function createKeyboardKeys(language, keys) {
 
 initDOM();
 
-function updateKeysOnCaps(virtualKey) {
-  capsState = !capsState;
+function updateKeysOnCaps() {
   const keyboardKeys = document.querySelectorAll('.key');
+  const capsKey = document.querySelector('.key[data-key="CapsLock"]');
   keyboardKeys.forEach(key => {
     const keyCode = key.dataset.code;
     if (!specialKeys.includes(keyCode)) {
       if (capsState) {
+        capsKey.classList.add('active');
         key.dataset.key = key.dataset.key.toUpperCase();
         key.textContent = key.dataset.key;
       } else {
         key.dataset.key = key.dataset.key.toLowerCase();
         key.textContent = key.dataset.key;
-        virtualKey.classList.remove('active');
+        capsKey.classList.remove('active');
       }
     }
   });
@@ -90,7 +100,8 @@ function handleKeys(virtualKey) {
         textarea.value += "\n";
         break;
       case "CapsLock":
-        updateKeysOnCaps(virtualKey);
+        capsState = !capsState;
+        updateKeysOnCaps();
         break;
       default:
         break;
@@ -194,6 +205,7 @@ function switchLanguage() {
           language = 'en';
         }
         localStorage.setItem('language', language);
+        updateKeyboard();
       }
     }
   });
@@ -206,3 +218,5 @@ function switchLanguage() {
 }
 
 switchLanguage();
+
+// TODO add EsLint
